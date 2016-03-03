@@ -240,7 +240,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                 break;
                 
             case QBImagePickerMediaTypeSphericImage:
-                options.predicate = [NSPredicate predicateWithFormat:@"(mediaSubtype & %d) == 0 && pixelWidth > 3264", PHAssetMediaSubtypePhotoPanorama];
+                options.predicate = [NSPredicate predicateWithFormat:@"pixelWidth > 3264"];
                 break;
 
             default:
