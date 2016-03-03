@@ -26,7 +26,8 @@
 typedef NS_ENUM(NSUInteger, QBImagePickerMediaType) {
     QBImagePickerMediaTypeAny = 0,
     QBImagePickerMediaTypeImage,
-    QBImagePickerMediaTypeVideo
+    QBImagePickerMediaTypeVideo,
+    QBImagePickerMediaTypePanoramaImage
 };
 
 @interface QBImagePickerController : UIViewController
