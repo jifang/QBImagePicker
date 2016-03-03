@@ -15,6 +15,7 @@
 // ViewControllers
 #import "QBImagePickerController.h"
 #import "QBAssetsViewController.h"
+#import "PHFetchResult+Filter.h"
 
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return CGSizeMake(size.width * scale, size.height * scale);
@@ -159,14 +160,22 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     for (PHFetchResult *fetchResult in self.fetchResults) {
         [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *assetCollection, NSUInteger index, BOOL *stop) {
             PHAssetCollectionSubtype subtype = assetCollection.assetCollectionSubtype;
-            
+            PHFetchResult *fetch = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+            if (self.imagePickerController.mediaType == QBImagePickerMediaTypeSphericImage) {
+                fetch = [fetch filterSphericImages];
+            }
+
             if (subtype == PHAssetCollectionSubtypeAlbumRegular) {
-                [userAlbums addObject:assetCollection];
+                if (fetch.count > 0) {
+                    [userAlbums addObject:assetCollection];
+                }
             } else if ([assetCollectionSubtypes containsObject:@(subtype)]) {
                 if (!smartAlbums[@(subtype)]) {
                     smartAlbums[@(subtype)] = [NSMutableArray array];
                 }
-                [smartAlbums[@(subtype)] addObject:assetCollection];
+                if (fetch.count > 0) {
+                    [smartAlbums[@(subtype)] addObject:assetCollection];
+                }
             }
         }];
     }
@@ -176,10 +185,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     // Fetch smart albums
     for (NSNumber *assetCollectionSubtype in assetCollectionSubtypes) {
         NSArray *collections = smartAlbums[assetCollectionSubtype];
-        
-        if (collections) {
-            [assetCollections addObjectsFromArray:collections];
-        }
+        [assetCollections addObjectsFromArray:collections];
     }
     
     // Fetch user albums
@@ -303,6 +309,10 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
     PHImageManager *imageManager = [PHImageManager defaultManager];
     
+    if (self.imagePickerController.mediaType == QBImagePickerMediaTypeSphericImage) {
+        fetchResult = [fetchResult filterSphericImages];
+    }
+
     if (fetchResult.count >= 3) {
         cell.imageView3.hidden = NO;
         

@@ -13,6 +13,7 @@
 #import "QBImagePickerController.h"
 #import "QBAssetCell.h"
 #import "QBVideoIndicatorView.h"
+#import "PHFetchResult+Filter.h"
 
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return CGSizeMake(size.width * scale, size.height * scale);
@@ -248,6 +249,10 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         }
         
         self.fetchResult = [PHAsset fetchAssetsInAssetCollection:self.assetCollection options:options];
+
+        if (self.imagePickerController.mediaType == QBImagePickerMediaTypeSphericImage) {
+            self.fetchResult = [self.fetchResult filterSphericImages];
+        }
         
         if ([self isAutoDeselectEnabled] && self.imagePickerController.selectedAssets.count > 0) {
             // Get index of previous selected asset

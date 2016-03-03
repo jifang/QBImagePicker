@@ -31,6 +31,10 @@
     imagePickerController.allowsMultipleSelection = (indexPath.section == 1);
     imagePickerController.showsNumberOfSelectedAssets = YES;
     
+    if (indexPath.section == 0 && indexPath.row == 1) {
+        imagePickerController.mediaType = QBImagePickerMediaTypeSphericImage;
+    }
+
     if (indexPath.section == 1) {
         switch (indexPath.row) {
             case 1:
