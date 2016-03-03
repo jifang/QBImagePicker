@@ -292,8 +292,8 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
             options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
             break;
             
-        case QBImagePickerMediaTypePanoramaImage:
-            options.predicate = [NSPredicate predicateWithFormat:@"(mediaSubtype & %d) != 0 || pixelWidth > 3264", PHAssetMediaSubtypePhotoPanorama];
+        case QBImagePickerMediaTypeSphericImage:
+            options.predicate = [NSPredicate predicateWithFormat:@"(mediaSubtype & %d) == 0 && pixelWidth > 3264", PHAssetMediaSubtypePhotoPanorama];
             break;
 
         default:

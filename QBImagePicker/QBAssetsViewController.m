@@ -239,8 +239,8 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                 options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
                 break;
                 
-            case QBImagePickerMediaTypePanoramaImage:
-                options.predicate = [NSPredicate predicateWithFormat:@"(mediaSubtype & %d) != 0 || pixelWidth > 3264", PHAssetMediaSubtypePhotoPanorama];
+            case QBImagePickerMediaTypeSphericImage:
+                options.predicate = [NSPredicate predicateWithFormat:@"(mediaSubtype & %d) == 0 && pixelWidth > 3264", PHAssetMediaSubtypePhotoPanorama];
                 break;
 
             default:
@@ -527,7 +527,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                 break;
                 
             case QBImagePickerMediaTypeImage:
-            case QBImagePickerMediaTypePanoramaImage:
+            case QBImagePickerMediaTypeSphericImage:
             {
                 NSString *key = (numberOfPhotos == 1) ? @"assets.footer.photo" : @"assets.footer.photos";
                 NSString *format = NSLocalizedStringFromTableInBundle(key, @"QBImagePicker", bundle, nil);
