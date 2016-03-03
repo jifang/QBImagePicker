@@ -544,6 +544,8 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                 label.text = [NSString stringWithFormat:format, numberOfVideos];
             }
                 break;
+            default:
+                break;
         }
         
         return footerView;
