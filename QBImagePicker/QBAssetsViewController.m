@@ -527,6 +527,14 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                 break;
                 
             case QBImagePickerMediaTypeImage:
+            {
+                NSString *key = (numberOfPhotos == 1) ? @"assets.footer.photo" : @"assets.footer.photos";
+                NSString *format = NSLocalizedStringFromTableInBundle(key, @"QBImagePicker", bundle, nil);
+
+                label.text = [NSString stringWithFormat:format, numberOfPhotos];
+            }
+                break;
+                
             case QBImagePickerMediaTypeSphericImage:
             {
                 NSString *key = (numberOfPhotos == 1) ? @"assets.footer.photo" : @"assets.footer.photos";
